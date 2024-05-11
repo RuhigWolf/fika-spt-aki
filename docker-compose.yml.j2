@@ -1,0 +1,87 @@
+# {{ ansible_managed }}
+---
+version: '3'
+services:
+  fika_server:
+    build:
+      context: https://github.com/RuhigWolf/fika-spt-aki.git
+      dockerfile: Dockerfile
+    volumes:
+      - ./Aki_Data:/opt/Aki_Data
+    ports:
+      - "6969:6969"
+      - "6970:6970"
+      - "6971:6971"
+    restart: unless-stopped
+    labels:
+      # Homepage
+      - homepage.group=Games
+      - homepage.name=SPT Tarkov
+      - homepage.icon=https://cdn2.steamgriddb.com/thumb/5d3d1a17bfceed6d6fbd9cd2bf5c619e.jpg
+      - homepage.description=Its singleplayer...right???
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+services:
+  palworld:
+    image: thijsvanloef/palworld-server-docker:v0.37.0@sha256:40930091c4a264a6b6f36bce432805383cc3dfd577c72471d76e55dece8a1ad5
+    container_name: palworld
+    stop_grace_period: 120s
+    ports:
+      - 8211:8211/udp
+      - 27015:27015/udp
+      - 25575:25575/tcp
+    environment:
+      ###
+      # Container Settings
+      ###
+      PLAYERS: 32
+      PORT: 8211
+      PUID: 1001
+      PGID: 1001
+      MULTITHREADING: "true"
+      SERVER_NAME: RuhigWolf\'s Palworld Server
+      SERVER_PASSWORD: {{ palworld.server_password }}
+      ADMIN_PASSWORD: {{ palworld.admin_password }}
+      DELETE_OLD_BACKUPS: "true"
+      AUTO_UPDATE_ENABLED: "true"
+      AUTO_REBOOT_ENABLED: "true"
+      ###
+      # Server Settings
+      ###
+      DIFFICULTY: "Normal"
+      NIGHTTIME_SPEEDRATE: 2.000000
+      EXP_RATE: 4.000000
+      PLAYER_STOMACH_DECREASE_RATE: 0.700000
+      PLAYER_STAMINA_DECREASE_RATE: 0.700000
+      PAL_STOMACH_DECREASE_RATE: 0.500000
+      PAL_STAMINA_DECREASE_RATE: 0.700000
+      COLLECTION_DROP_RATE: 2.000000
+      ENEMY_DROP_ITEM_RATE: 2.000000
+      DEATH_PENALTY: "None"
+      PLAYER_AUTO_HP_REGEN_RATE: 4.000000
+      PAL_EGG_DEFAULT_HATCHING_TIME: 1.500000
+    volumes:
+      - ./game:/palworld
+      - /etc/timezone:/etc/timezone:ro
+    restart: unless-stopped
+    labels:
+      # Homepage
+      - homepage.group=Games
+      - homepage.name=Palworld
+      - homepage.icon=https://cdn2.steamgriddb.com/icon/9ce60c64ac4510df68537de96631261f/32/256x256.png
+      - homepage.description=It's not Pokémon...right?
